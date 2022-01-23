@@ -1,4 +1,5 @@
 plugins {
+    kotlin("jvm") version "1.5.21"
     `kotlin-dsl`
     `maven-publish`
     `java-gradle-plugin`
@@ -37,10 +38,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junit")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junit")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit")
-}
-
-tasks.compileKotlin {
-    kotlinOptions.jvmTarget = "17"
 }
 
 tasks.jacocoTestReport {
