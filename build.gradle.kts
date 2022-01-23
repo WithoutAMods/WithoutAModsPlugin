@@ -28,7 +28,7 @@ dependencies {
         isChanging = true
     }
     implementation("org.parchmentmc:librarian:1.+")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
 
     testImplementation("org.assertj:assertj-core:3.22.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
