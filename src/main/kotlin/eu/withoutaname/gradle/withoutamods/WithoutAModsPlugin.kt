@@ -21,6 +21,7 @@ class WithoutAModsPlugin : Plugin<Project> {
         val unset = "" // TODO
         target.apply(block = {
             val config = extensions.create<WithoutAModsExtension>("withoutamod")
+            config.init()
 
             apply<UserDevPlugin>()
             apply<LibrarianForgeGradlePlugin>()
@@ -81,7 +82,10 @@ class WithoutAModsPlugin : Plugin<Project> {
 
             dependencies {
                 "minecraft"("net.minecraftforge:forge:$unset")
-                add("implementation", the<DependencyManagementExtension>().deobf("\"thedarkcolour:kotlinforforge:1.16.0\""))
+                add(
+                    "implementation",
+                    the<DependencyManagementExtension>().deobf("\"thedarkcolour:kotlinforforge:1.16.0\"")
+                )
             }
 
             tasks.named("jar").get().finalizedBy("reobfJar")
