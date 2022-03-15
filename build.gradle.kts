@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "eu.withoutaname.gradle.plugin"
-version = "1.0.0-alpha.1"
+version = "1.0.0-alpha.2-SNAPSHOT"
 
 gradlePlugin {
     plugins {
