@@ -16,6 +16,7 @@ class WithoutAModsPlugin : Plugin<Project> {
             apply<LibrarianForgeGradlePlugin>()
             apply<MavenPublishPlugin>()
             apply<KotlinPluginWrapper>()
+            apply(from = "https://raw.githubusercontent.com/thedarkcolour/KotlinForForge/site/thedarkcolour/kotlinforforge/gradle/kff-3.1.0.gradle")
         })
     }
 }

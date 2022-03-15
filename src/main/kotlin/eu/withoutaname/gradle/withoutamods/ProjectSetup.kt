@@ -1,6 +1,5 @@
 package eu.withoutaname.gradle.withoutamods
 
-import net.minecraftforge.gradle.common.util.ModConfig
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import org.gradle.api.Project
@@ -13,7 +12,7 @@ import org.gradle.jvm.toolchain.JavaToolchainSpec
 import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 
-fun Project.withoutamod(block: Config.() -> Unit) {
+fun Project.withoutamod(block: Config.() -> Unit = {}) {
     val config = Config().apply(block)
 
     version = config.version
@@ -37,16 +36,16 @@ fun Project.withoutamod(block: Config.() -> Unit) {
 
         // accessTransformer = file("src/main/resources/META-INF/accesstransformer.cfg") // Currently, this location cannot be changed from the default.
 
-        runs(closureOf<NamedDomainObjectContainerScope<RunConfig>> {
+        runs {
             fun RunConfig.default() {
                 workingDirectory(project.file("run"))
                 property("forge.logging.markers", "REGISTRIES")
                 property("forge.logging.console.level", "debug")
-                mods(closureOf<ModConfig> {
+                mods {
                     create(config.modid) {
                         source(the<JavaPluginExtension>().sourceSets["main"])
                     }
-                })
+                }
             }
             create("client") {
                 default()
@@ -72,7 +71,7 @@ fun Project.withoutamod(block: Config.() -> Unit) {
                     file("src/main/resources/")
                 )
             }
-        })
+        }
     }
 
     configure<JavaPluginExtension> {
