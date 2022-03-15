@@ -1,7 +1,7 @@
 package eu.withoutaname.gradle.withoutamods
 
+import eu.withoutaname.gradle.withoutamods.extensions.WithoutAModsExtension
 import net.minecraftforge.gradle.common.util.RunConfig
-import net.minecraftforge.gradle.userdev.DependencyManagementExtension
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import net.minecraftforge.gradle.userdev.UserDevPlugin
 import org.gradle.api.Plugin
@@ -18,25 +18,23 @@ import org.parchmentmc.librarian.forgegradle.LibrarianForgeGradlePlugin
 class WithoutAModsPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
-        val unset = "" // TODO
         target.apply(block = {
             val config = extensions.create<WithoutAModsExtension>("withoutamod")
-            config.init()
 
             apply<UserDevPlugin>()
             apply<LibrarianForgeGradlePlugin>()
             apply<MavenPublishPlugin>()
             apply<KotlinPluginWrapper>()
 
-            group = config.modConfig.group.get()
-            version = config.modConfig.version.get()
+            group = config.group.get()
+            version = config.version.get()
 
             configure<JavaPluginExtension> {
                 toolchain.languageVersion.set(JavaLanguageVersion.of(17))
             }
 
             configure<UserDevExtension> {
-                mappings(unset, unset)
+                mappings(config.mappingsChannel, config.mappingsVersion)
 
                 runs {
                     fun RunConfig.default() {
@@ -44,7 +42,7 @@ class WithoutAModsPlugin : Plugin<Project> {
                         property("forge.logging.markers", "REGISTRIES")
                         property("forge.logging.console.level", "debug")
                         mods {
-                            create(unset) {
+                            create(config.modid.get()) {
                                 source(the<JavaPluginExtension>().sourceSets["main"])
                             }
                         }
@@ -59,7 +57,7 @@ class WithoutAModsPlugin : Plugin<Project> {
                         default()
                         args(
                             "--mod",
-                            unset,
+                            config.modid.get(),
                             "--all",
                             "--output",
                             file("src/generated/resources/"),
@@ -81,17 +79,17 @@ class WithoutAModsPlugin : Plugin<Project> {
             }
 
             dependencies {
-                "minecraft"("net.minecraftforge:forge:$unset")
-                add(
-                    "implementation",
-                    the<DependencyManagementExtension>().deobf("\"thedarkcolour:kotlinforforge:1.16.0\"")
-                )
+                "minecraft"("net.minecraftforge:forge:${config.forgeVersion}")
+//                add(
+//                    "implementation",
+//                    the<DependencyManagementExtension>().deobf("thedarkcolour:kotlinforforge:1.16.0")
+//                )
             }
 
             tasks.named("jar").get().finalizedBy("reobfJar")
             configure<PublishingExtension> {
                 publications {
-                    create<MavenPublication>(unset) {
+                    create<MavenPublication>(config.modid.get()) {
                         from(components["java"])
                     }
                 }
