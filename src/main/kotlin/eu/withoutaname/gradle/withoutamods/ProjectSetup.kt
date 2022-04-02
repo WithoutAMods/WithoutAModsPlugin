@@ -93,7 +93,7 @@ fun Project.mod(block: Config.() -> Unit = {}) {
 
     dependencies {
         "minecraft"("net.minecraftforge:forge:${config.forgeVersion}")
-        config.dependencies.dependencyConfig.forEach { it() }
+        config.dependencies.dependencyConfig.forEach { it(project) }
     }
 
     tasks["jar"].finalizedBy("reobfJar")

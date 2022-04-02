@@ -1,6 +1,7 @@
 package eu.withoutaname.gradle.withoutamods
 
 import net.minecraftforge.gradle.userdev.DependencyManagementExtension
+import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.maven
@@ -50,7 +51,7 @@ class Dependencies {
     private val mavenRepos: MutableSet<URI> = mutableSetOf()
     val repositoryConfig: MutableList<RepositoryHandler.() -> Unit> =
         mutableListOf({ mavenRepos.forEach { maven(it) } })
-    val dependencyConfig: MutableList<DependencyHandlerScope.() -> Unit> = mutableListOf()
+    val dependencyConfig: MutableList<DependencyHandlerScope.(project: Project) -> Unit> = mutableListOf()
 
     fun maven(url: URI) {
         mavenRepos.add(url)
@@ -64,10 +65,10 @@ class Dependencies {
         maven(url)
         dependencies {
             if (hasApi) {
-                add("compileOnly", the<DependencyManagementExtension>().deobf("$group:$name:$version:api"))
-                add("runtimeOnly", the<DependencyManagementExtension>().deobf("$group:$name:$version"))
+                add("compileOnly", it.the<DependencyManagementExtension>().deobf("$group:$name:$version:api"))
+                add("runtimeOnly", it.the<DependencyManagementExtension>().deobf("$group:$name:$version"))
             } else {
-                add("implementation", the<DependencyManagementExtension>().deobf("$group:$name:$version"))
+                add("implementation", it.the<DependencyManagementExtension>().deobf("$group:$name:$version"))
             }
         }
     }
@@ -76,7 +77,7 @@ class Dependencies {
         repositoryConfig.add(block)
     }
 
-    fun dependencies(block: DependencyHandlerScope.() -> Unit) {
+    fun dependencies(block: DependencyHandlerScope.(project: Project) -> Unit) {
         dependencyConfig.add(block)
     }
 }
