@@ -11,12 +11,5 @@ import org.parchmentmc.librarian.forgegradle.LibrarianForgeGradlePlugin
 class WithoutAModsPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
-        target.apply(block = {
-            apply<UserDevPlugin>()
-            apply<LibrarianForgeGradlePlugin>()
-            apply<MavenPublishPlugin>()
-            apply<KotlinPluginWrapper>()
-            apply(from = "https://raw.githubusercontent.com/thedarkcolour/KotlinForForge/site/thedarkcolour/kotlinforforge/gradle/kff-3.1.0.gradle")
-        })
     }
 }
