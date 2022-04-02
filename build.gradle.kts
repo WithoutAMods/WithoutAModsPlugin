@@ -72,7 +72,7 @@ publishing {
     repositories {
         maven {
             url = uri(
-                "https://withoutaname.eu/maven/${
+                "https://repo.withoutaname.eu/${
                     if (version.toString().endsWith("-SNAPSHOT")) "snapshots" else "gradle"
                 }"
             )
