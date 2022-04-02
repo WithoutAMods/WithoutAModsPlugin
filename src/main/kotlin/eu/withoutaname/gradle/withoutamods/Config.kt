@@ -15,8 +15,9 @@ data class Config(
     var modid: String = "modid",
     var group: String = "com.yourname.modid",
     var version: String = "1.0.0",
-    var mappings: Mappings = Mappings(),
     var forgeVersion: String = "1.18.2-40.0.15",
+    var kotlinForForgeVersion: String = "3.1.0",
+    var mappings: Mappings = Mappings(),
     var dependencies: Dependencies = Dependencies()
 ) {
 

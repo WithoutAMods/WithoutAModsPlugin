@@ -14,12 +14,13 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.parchmentmc.librarian.forgegradle.LibrarianForgeGradlePlugin
 
 fun Project.mod(block: Config.() -> Unit = {}) {
-    val config = Config().apply(block)
-
     apply<UserDevPlugin>()
     apply<LibrarianForgeGradlePlugin>()
     apply<KotlinPluginWrapper>()
-    apply(from = "https://raw.githubusercontent.com/thedarkcolour/KotlinForForge/site/thedarkcolour/kotlinforforge/gradle/kff-3.1.0.gradle")
+
+    val config = Config().apply(block)
+
+    apply(from = "https://raw.githubusercontent.com/thedarkcolour/KotlinForForge/site/thedarkcolour/kotlinforforge/gradle/kff-${config.kotlinForForgeVersion}.gradle")
 
     version = config.version
     group = config.group
